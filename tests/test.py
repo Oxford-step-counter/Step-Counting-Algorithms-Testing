@@ -1,5 +1,4 @@
 from inputPipe import InputPipe
 
-p = InputPipe('test')
-
+p = InputPipe('./data/accelerometer.csv')
 p.start()
