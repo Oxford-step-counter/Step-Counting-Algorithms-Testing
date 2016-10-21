@@ -8,7 +8,7 @@
 #       in a class anywhere.
 #
 #=========================================================================#
-from infra.dataStructure import DataStructure
+from src.infra.dataStructure import DataStructure
 
 #Function to load in the accelerometer data from the CSV file.
 def loadCSV(filepath) :
@@ -18,6 +18,6 @@ def loadCSV(filepath) :
         for line in f :
             s_line = line.split(',')
             ds = DataStructure(int(s_line[0]), float(s_line[2]), float(s_line[3]), float(s_line[4]))
-            data.add(ds)
+            data.append(ds)
 
     return data

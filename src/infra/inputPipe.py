@@ -12,8 +12,8 @@
 
 from threading import Thread
 import time
-from constants import Constants
-import utils
+from src.constants import Constants
+import src.utils as utils
 
 class InputPipe :
 
@@ -26,16 +26,23 @@ class InputPipe :
 
     def start(self) :
 
-        if self.queue :
+        if hasattr(self, 'queue') :
             try :
                 self.thread = Thread(target = self.pipeInput, args = ())
+                self.thread.daemon = True
                 self.thread.start()
             except :
-                print 'Error: Cannot start piping thread'
+                print('Error: Cannot start piping thread')
         else :
 
-            print 'No queue attached'
+            print('No queue attached')
 
+    def isRunning(self) :
+
+        if hasattr(self, 'thread') :
+            return self.thread.isAlive()
+        else :
+            return False
 
     def stop(self) :
 
@@ -44,8 +51,8 @@ class InputPipe :
 
     def pipeInput(self) :
 
-        self.data = utils.loadCSV(self.filepath)
+        data = utils.loadCSV(self.filepath)
 
-        for datapoint in self.data :
-            self.queue.add(data)
+        for datapoint in data :
+            self.queue.enqueue(datapoint)
             time.sleep(Constants.samplePeriod)

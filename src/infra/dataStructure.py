@@ -12,17 +12,17 @@ import math
 
 class DataStructure :
 
-    def __init__(time, x, y, z) :
+    def __init__(self, time, x, y, z) :
 
         self.time = time
         self.x = x
         self.y = y
         self.z = z
-        self.magnitude = _computeMagnitude()
+        self.magnitude = self._computeMagnitude()
 
-    def scaleTime(startTime) :
+    def scaleTime(self, startTime) :
 
-        self.time = (self.time - startTime) / 1000000f
+        self.time = (self.time - startTime) / 1000000
 
     def _computeMagnitude(self) :
         return math.pow(self.x, 2) + math.pow(self.y, 2) + math.pow(self.z, 2)

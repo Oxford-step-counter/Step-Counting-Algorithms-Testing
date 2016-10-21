@@ -1,16 +1,15 @@
 #========================================================================#
 #
-#       constants.py 
+#       constants.py
 #       Jamieson Brynes
 #       10/21/2016
 #
-#       This class contains all of the constants for the step counting 
+#       This class contains all of the constants for the step counting
 #       programs.
 #
 #========================================================================#
 
 
-class Constants : 
+class Constants :
 
-    samplePeriod = 10 #Note this is in ms.
-
+    samplePeriod = 0.01 #Note this is in seconds. (10 ms)
