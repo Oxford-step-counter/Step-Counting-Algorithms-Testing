@@ -9,7 +9,7 @@
 #=========================================================================#
 import math
 
-
+#Data structure for accelerometer data point.
 class DataStructure :
 
     def __init__(self, time, x, y, z) :
@@ -20,13 +20,16 @@ class DataStructure :
         self.z = z
         self.magnitude = self._computeMagnitude()
 
-    def scaleTime(self, startTime) :
+    #Function to scale and shift time axis.
+    def scaleTime(self, startTime, factor) :
 
-        self.time = (self.time - startTime) / 1000000
+        self.time = (self.time - startTime) / factor
 
+    #Internal function to compute magnitude
     def _computeMagnitude(self) :
         return math.pow(self.x, 2) + math.pow(self.y, 2) + math.pow(self.z, 2)
 
+    #Getters and setters
     def setX(self, x) :
         self.x = x
 

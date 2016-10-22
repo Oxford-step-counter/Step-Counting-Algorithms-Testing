@@ -9,7 +9,7 @@
 #
 #========================================================================#
 
-
+#Class to contain constants
 class Constants :
 
     samplePeriod = 0.01 #Note this is in seconds. (10 ms)
