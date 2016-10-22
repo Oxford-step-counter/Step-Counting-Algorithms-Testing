@@ -17,8 +17,9 @@ import src.utils as utils
 
 class InputPipe :
 
-    def __init__(self, filepath) :
+    def __init__(self, filepath, queue) :
         self.filepath = filepath
+        self.queue = queue
 
     def attachQueue(self, queue) :
 
@@ -34,7 +35,6 @@ class InputPipe :
             except :
                 print('Error: Cannot start piping thread')
         else :
-
             print('No queue attached')
 
     def isRunning(self) :
