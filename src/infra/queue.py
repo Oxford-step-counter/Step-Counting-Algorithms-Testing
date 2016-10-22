@@ -9,21 +9,22 @@
 #
 #=========================================================================#
 
+from collections import deque
 
-#Basic implementation of queue 
+#Basic implementation of queue wrapping around the deque class.
 class Queue :
 
     def __init__(self) :
-        self.items = []
+        self.queue = deque()
 
     def isEmpty(self) :
-        return self.items == []
+        return len(self.queue) == 0
 
     def enqueue(self, item) :
-        return self.items.insert(0,item)
+        self.queue.append(item)
 
     def dequeue(self) :
-        return self.items.pop()
+        return self.queue.popleft()
 
     def size(self) :
-        return len(self.items)
+        return len(self.queue)
