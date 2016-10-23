@@ -29,7 +29,7 @@ class DataStructure :
 
     #Function to compute magnitude
     def computeMagnitude(self) :
-        self.magnitude = math.pow(self.x, 2) + math.pow(self.y, 2) + math.pow(self.z, 2)
+        self.magnitude = math.sqrt(math.pow(self.x, 2) + math.pow(self.y, 2) + math.pow(self.z, 2))
 
     #Getters and setters
     def setX(self, x) :

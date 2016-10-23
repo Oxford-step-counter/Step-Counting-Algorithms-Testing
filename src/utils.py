@@ -27,7 +27,7 @@ def loadCSV(filepath) :
 
 #Function for logging events with respect to thread.
 def threadLog(s) :
-    with open(Constants.threadlog) as f :
+    with open(Constants.threadlog, 'w') as f :
         f.write(s)
         f.write('\r\n')
 
@@ -44,6 +44,6 @@ def linearInterp(dp1, dp2, time) :
 
     slope = dv / dt
 
-    new_mag = slope * (time - time1)
+    new_mag = slope * (time - time1) + value1
 
     return Sds(time, new_mag)

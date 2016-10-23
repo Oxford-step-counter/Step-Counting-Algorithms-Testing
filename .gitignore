@@ -1,5 +1,8 @@
 #Ignore csv data files.
 *.csv
 
+#Ignore txt log files
+*.txt
+
 #Ignore compiled python
 *.pyc

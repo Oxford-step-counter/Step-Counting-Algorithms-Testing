@@ -56,3 +56,5 @@ class InputPipe :
         for datapoint in data :
             self.queue.enqueue(datapoint)
             time.sleep(Constants.SAMPLE_PERIOD)
+
+        self.queue.enqueue('end')

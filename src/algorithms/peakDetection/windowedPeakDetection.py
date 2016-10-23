@@ -10,13 +10,13 @@
 #
 #========================================================================#
 
-from src.constants import constants
+from src.constants import Constants
 
 from src.infra.queue import Queue
 
 from src.algorithms.peakDetection.peakDetector import PeakDetector
-from src.algorithm.peakDetection.postProcessing import WpdPostProcessor
-from src.algorithm.peakDetection.preProcessing import WpdPreProcessor
+from src.algorithms.peakDetection.postProcessing import WpdPostProcessor
+from src.algorithms.peakDetection.preProcessing import WpdPreProcessor
 
 class Wpd :
 
@@ -50,7 +50,7 @@ class Wpd :
         self.preProcessing = WpdPreProcessor(preProcessingParams, self.inputQueue, self.data, self.dataQueue)
         self.window = Constants.SMOOTHING_WINDOWS[windowType](windowParams, self.dataQueue, self.smoothedDataQueue)
         self.peakScorer = Constants.PEAKY_FUNCTIONS[peakFuncType](peakFuncParams, self.smoothedDataQueue, self.smoothedData, self.peakScores)
-        self.peakDetection = PeakDetector(PeakDetectorParams, self.peakScores, self.peakyData, self.peaks, )
+        self.peakDetection = PeakDetector(peakDetectorParams, self.peakScores, self.peakyData, self.peaks)
         self.postProcessing = WpdPostProcessor(postProcessingParams, self.peaks, self.confirmedPeaks)
 
 
@@ -78,11 +78,15 @@ class Wpd :
         return self.preProcessing.isDone() and self.window.isDone() and self.peakScorer.isDone() and self.peakDetection.isDone() and self.postProcessing.isDone()
 
     def isRunning(self) :
-        return self.preProcessing.isRunning() or self.window.isRunning() or self.peakScorer.isRunning() or self.peakDetection.isRunning() or self.postProcessing.isRunning() :
+        return self.preProcessing.isRunning() or self.window.isRunning() or self.peakScorer.isRunning() or self.peakDetection.isRunning() or self.postProcessing.isRunning()
 
     #Getters
     def getRawData(self) :
         return self.data
+
+    def getProcessedDataSize(self) :
+        return self.dataQueue.size()
+
 
 
     def getSmoothedData(self) :
