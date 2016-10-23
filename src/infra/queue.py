@@ -28,3 +28,6 @@ class Queue :
 
     def size(self) :
         return len(self.queue)
+
+    def __getitem__(self, i) :
+        return self.queue[i]

@@ -18,16 +18,18 @@ class DataStructure :
         self.x = x
         self.y = y
         self.z = z
-        self.magnitude = self._computeMagnitude()
+        self.magnitude = None
+        #Boolean for tracking if this data point was smoothed
+        self.modified = False
 
     #Function to scale and shift time axis.
     def scaleTime(self, startTime, factor) :
 
         self.time = (self.time - startTime) / factor
 
-    #Internal function to compute magnitude
-    def _computeMagnitude(self) :
-        return math.pow(self.x, 2) + math.pow(self.y, 2) + math.pow(self.z, 2)
+    #Function to compute magnitude
+    def computeMagnitude(self) :
+        self.magnitude = math.pow(self.x, 2) + math.pow(self.y, 2) + math.pow(self.z, 2)
 
     #Getters and setters
     def setX(self, x) :
@@ -38,6 +40,9 @@ class DataStructure :
 
     def setZ(self, z) :
         self.z = z
+
+    def setTime(self, time) :
+        self.time = time
 
     def setMagnitude(self, mag) :
         self.magnitude = mag
@@ -50,3 +55,9 @@ class DataStructure :
 
     def getZ(self) :
         return self.z
+
+    def getTime(self) :
+        return self.time
+
+    def getMagnitude(self) :
+        return self.magnitude
