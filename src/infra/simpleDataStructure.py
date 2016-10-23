@@ -20,6 +20,9 @@ class Sds :
         self.time = time
         self.mag = mag
 
+    def toCsv(self) :
+        return str(time) + ',' + str(mag) + '\n'
+
     def getTime(self) :
         return self.time
 

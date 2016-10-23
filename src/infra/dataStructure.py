@@ -41,6 +41,10 @@ class DataStructure :
     def computeMagnitude(self) :
         self.magnitude = math.sqrt(math.pow(self.x, 2) + math.pow(self.y, 2) + math.pow(self.z, 2))
 
+    #Function to dump this data to a csv line entry
+    def toCsv(self) :
+        return str(self.time) + ',' + str(self.x) + ',' + str(self.y) + ',' + str(self.z) + '\n'
+
 
     #Getters and setters
     def setX(self, x) :
