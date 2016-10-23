@@ -31,3 +31,6 @@ class Queue :
 
     def __getitem__(self, i) :
         return self.queue[i]
+
+    def __len__(self) :
+        return len(self.queue)
