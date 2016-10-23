@@ -13,6 +13,9 @@ from src.infra.simpleDataStructure import Sds
 from src.constants import Constants
 
 #Function to load in the accelerometer data from the CSV file.
+# @args:
+#   1. filepath - path to the .csv file location
+#TODO : Add exception handling
 def loadCSV(filepath) :
 
     data = []
@@ -26,12 +29,18 @@ def loadCSV(filepath) :
 
 
 #Function for logging events with respect to thread.
+# @args:
+#   1. s - string to write to log.
 def threadLog(s) :
-    with open(Constants.threadlog, 'w') as f :
+    with open(Constants.threadlog, 'a') as f :
         f.write(s)
         f.write('\r\n')
 
-
+#Linear interpolation function. Simple implementation
+# @args:
+#   1. dp1 - datapoint one, assume dataStructure type
+#   2. dp2 - datapoint two, assume dataStructure type
+#   3. time - interpolation time
 def linearInterp(dp1, dp2, time) :
 
     time1 = dp1.getTime()
@@ -47,3 +56,14 @@ def linearInterp(dp1, dp2, time) :
     new_mag = slope * (time - time1) + value1
 
     return Sds(time, new_mag)
+
+#Function to print a queue of data to a .csv file
+# @args:
+#   1. queue - Queue or list object to iterate over.
+#   2. filename - name of the csv file to be created.
+def printToCsv(queue, filename) :
+
+    with open(filename, 'w') as f :
+
+        for i in range(0,len(queue)) :
+            f.write(queue[i].toCsv())

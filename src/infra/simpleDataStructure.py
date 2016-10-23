@@ -11,6 +11,10 @@
 
 class Sds :
 
+    #Constructor
+    # @args:
+    #   1. time - timestamp
+    #   2. mag - magnitude of the signal
     def __init__(self, time, mag) :
 
         self.time = time

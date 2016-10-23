@@ -54,6 +54,7 @@ class Wpd :
         self.postProcessing = WpdPostProcessor(postProcessingParams, self.peaks, self.confirmedPeaks)
 
 
+    #Start algorithm signal, kicks off all the worker threads for the various stages
     def start(self) :
         #Start preprocessing thread
         self.preProcessing.start()
@@ -66,6 +67,8 @@ class Wpd :
         #Start data post processing thread
         self.postProcessing.start()
 
+
+    #Stop algorithm signal, halts all the worker threads after the current operation
     def stop(self) :
 
         self.preProcessing.stop()
@@ -74,19 +77,24 @@ class Wpd :
         self.peakDetection.stop()
         self.postProcessing.stop()
 
+
+    #Check if the algorithm is done
     def isDone(self) :
         return self.preProcessing.isDone() and self.window.isDone() and self.peakScorer.isDone() and self.peakDetection.isDone() and self.postProcessing.isDone()
 
+
+    #Check if the algorithm is still running
     def isRunning(self) :
         return self.preProcessing.isRunning() or self.window.isRunning() or self.peakScorer.isRunning() or self.peakDetection.isRunning() or self.postProcessing.isRunning()
+
 
     #Getters
     def getRawData(self) :
         return self.data
 
+
     def getProcessedDataSize(self) :
         return self.dataQueue.size()
-
 
 
     def getSmoothedData(self) :
@@ -99,6 +107,7 @@ class Wpd :
 
     def getPeaks(self) :
         return self.confirmedPeaks
+
 
     def getSteps(self) :
         return len(self.confirmedPeaks)

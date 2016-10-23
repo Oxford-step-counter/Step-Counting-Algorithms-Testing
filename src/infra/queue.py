@@ -19,7 +19,7 @@ class Queue :
 
     def isEmpty(self) :
         return len(self.queue) == 0
-
+    
     def enqueue(self, item) :
         self.queue.append(item)
 

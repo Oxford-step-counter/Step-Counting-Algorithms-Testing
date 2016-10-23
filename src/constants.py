@@ -22,7 +22,7 @@ class Constants :
     #Debug toggle
     DEBUG = True
 
-    THREAD_SLEEP_PERIOD = 0.02 #Note that this is in seconds. (30 ms)
+    THREAD_SLEEP_PERIOD = 0.01 #Note that this is in seconds. (30 ms)
     SAMPLE_PERIOD = 0.01 #Note this is in seconds. (10 ms)
 
     #Dictionary for types of smoothing windows
