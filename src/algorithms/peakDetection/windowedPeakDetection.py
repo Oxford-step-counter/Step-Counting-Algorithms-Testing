@@ -75,7 +75,7 @@ class Wpd :
         self.postProcessing.stop()
 
     def isDone(self) :
-        return self.preProcessing.isDone() && self.window.isDone() && self.peakScorer.isDone() && self.peakDetection.isDone() && self.postProcessing.isDone()
+        return self.preProcessing.isDone() and self.window.isDone() and self.peakScorer.isDone() and self.peakDetection.isDone() and self.postProcessing.isDone()
 
     def isRunning(self) :
         return self.preProcessing.isRunning() or self.window.isRunning() or self.peakScorer.isRunning() or self.peakDetection.isRunning() or self.postProcessing.isRunning() :
