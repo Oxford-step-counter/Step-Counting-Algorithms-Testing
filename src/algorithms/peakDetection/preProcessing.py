@@ -119,5 +119,5 @@ class WpdPreProcessor :
 
                     #Pop the most recent element
                     self.window.dequeue()
-                    
-            time.sleep(Constants.THREAD_SLEEP_PERIOD)
+            else :
+                time.sleep(Constants.THREAD_SLEEP_PERIOD)
