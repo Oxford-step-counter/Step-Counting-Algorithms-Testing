@@ -53,7 +53,7 @@ class WpdPreProcessor :
         self.startTime = None
         self.interpolation_count = 0
 
-
+    #Start signal, create and kick off thread
     def start(self) :
         self.active = True
         self.thread = Thread(target = self.preProcess, args=())
@@ -61,28 +61,26 @@ class WpdPreProcessor :
         self.thread.start()
         utils.threadLog('Preprocessing thread started')
 
-
+    #Check if the thread is running
     def isRunning(self) :
-
         #If the program is in 'active' mode AND the thread is actually still running.
         return self.active and True if (self.thread and self.thread.isAlive()) else False
 
+    #Check if the pre-processing stage is finished
     def isDone(self) :
-
         return self.completed
 
-
+    #Stop signal, end thread after current operation is done
     def stop(self) :
 
         utils.threadLog('Preprocessing thread stopped.')
         self.active = False
 
-
+    #Worked function for thread
     def preProcess(self) :
-
         while self.active :
             if not self.inputQueue.isEmpty() :
-                #Pop oldest point on the queue and computeMagnitude
+                #Pop oldest point on the queue
                 ds = self.inputQueue.dequeue()
 
                 #Special handling for the 'end' of the data stream
@@ -91,26 +89,29 @@ class WpdPreProcessor :
                     self.completed = True
                     return
 
-                ds.computeMagnitude()
                 #Handling for the first data point received
                 if self.startTime == None :
                     self.startTime = ds.getTime()
 
-                #Scale time
+                #Scale time and compute magnitude
                 ds.scaleTime(self.startTime, self.ts_factor)
+                ds.computeMagnitude()
 
+                #Add the datapoint to the working window and the list of data
                 self.window.enqueue(ds)
                 self.dataList.append(ds)
 
+                #If we have more than 1 point in the queue
                 if self.window.size() >= 2 :
-                    #Process data and pop.
 
+                    #Timestamps
                     time1 = self.window[0].getTime()
                     time2 = self.window[1].getTime()
 
-
+                    #Check how many interpolation points COULD lie in between the timestamps
                     for i in range(math.ceil((time2 - time1) / self.interp_ts)) :
                         interp_time = (self.interpolation_count) * self.interp_ts
+                        #If the interpolated time lies in this range, create the new data point and add it
                         if time1 <= interp_time and time2 > interp_time :
                             sds = utils.linearInterp(self.window[0], self.window[1], interp_time)
                             self.dataQueue.enqueue(sds)
@@ -118,5 +119,5 @@ class WpdPreProcessor :
 
                     #Pop the most recent element
                     self.window.dequeue()
-
+                    
             time.sleep(Constants.THREAD_SLEEP_PERIOD)
