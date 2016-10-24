@@ -80,7 +80,7 @@ class CenterMovingAvg:
                     for i in range(len(self.window)):
                         ssum += self.window[i].mag
 
-                    new_dp = Sds(self.window[int(self.windowSize / 2)].time, ssum)
+                    new_dp = Sds(self.window[int(self.windowSize / 2)].time, ssum / self.windowSize)
                     self.outputQueue.enqueue(new_dp)
                     self.window.dequeue()
 
