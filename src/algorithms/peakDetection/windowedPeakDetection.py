@@ -13,7 +13,6 @@
 from src.constants import Constants
 
 from src.infra.queue import Queue
-from src.infra.plottableList import PlottableList
 
 from src.algorithms.peakDetection.peakDetector import PeakDetector
 from src.algorithms.peakDetection.postProcessing import WpdPostProcessor
@@ -32,8 +31,7 @@ class Wpd:
     #   6. peakFuncParams - parameters for the peak scoring function, see relevant scoring function for docs.
     #   7. peakDetectorParams - parameters for the peak detector, see peakDetector.py for docs.
     #   8. postProcessingParams - parameters for post processing, see postProcessing.py for docs.
-    #   9. uiCallbackHandler - handler for updating graphs and UI
-    def __init__(self, queue, preProcessingParams, windowType, windowParams, peakFuncType, peakFuncParams, peakDetectorParams, postProcessingParams, uiCallbackHandler):
+    def __init__(self, queue, preProcessingParams, windowType, windowParams, peakFuncType, peakFuncParams, peakDetectorParams, postProcessingParams):
 
         # Internal queues for data flow
         self.inputQueue = queue
@@ -43,17 +41,11 @@ class Wpd:
         self.peaks = Queue()
 
         # Internal plottable lists for plottable data
-        self.data = PlottableList()
-        self.smoothedData = PlottableList()
-        self.peakScoreData = PlottableList()
-        self.peakData = PlottableList()
-        self.confirmedPeaks = PlottableList()
-
-        self.data.subscribe(uiCallbackHandler, 'raw_data')
-        self.smoothedData.subscribe(uiCallbackHandler, 'smooth_data')
-        self.peakScoreData.subscribe(uiCallbackHandler, 'peak_score_data')
-        self.peakData.subscribe(uiCallbackHandler, 'peak_data')
-        self.confirmedPeaks.subscribe(uiCallbackHandler, 'confirmed_peak_data')
+        self.data = []
+        self.smoothedData = []
+        self.peakScoreData = []
+        self.peakData = []
+        self.confirmedPeaks = []
 
         # Internal 'worker threads' in the form of objects
         self.preProcessing = WpdPreProcessor(preProcessingParams, self.inputQueue, self.data, self.dataQueue)
