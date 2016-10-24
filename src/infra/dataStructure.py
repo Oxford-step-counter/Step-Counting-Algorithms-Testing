@@ -24,7 +24,7 @@ class DataStructure :
         self.x = x
         self.y = y
         self.z = z
-        self.magnitude = None
+        self.mag = None
         #Boolean for tracking if this data point was smoothed
         self.modified = False
 
@@ -39,7 +39,7 @@ class DataStructure :
 
     #Function to compute magnitude
     def computeMagnitude(self) :
-        self.magnitude = math.sqrt(math.pow(self.x, 2) + math.pow(self.y, 2) + math.pow(self.z, 2))
+        self.mag = math.sqrt(math.pow(self.x, 2) + math.pow(self.y, 2) + math.pow(self.z, 2))
 
     #Function to dump this data to a csv line entry
     def toCsv(self) :
@@ -75,4 +75,4 @@ class DataStructure :
         return self.time
 
     def getMagnitude(self) :
-        return self.magnitude
+        return self.mag

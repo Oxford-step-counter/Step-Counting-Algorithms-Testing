@@ -21,16 +21,16 @@ class Sds :
         self.mag = mag
 
     def toCsv(self) :
-        return str(time) + ',' + str(mag) + '\n'
+        return str(self.time) + ',' + str(self.mag) + '\n'
 
     def getTime(self) :
         return self.time
 
-    def getMag(self) :
+    def getMagnitude(self) :
         return self.mag
 
     def setTime(self, time) :
         self.time = time
 
-    def setMag(self, mag) :
+    def setMagnitude(self, mag) :
         self.mag = mag
