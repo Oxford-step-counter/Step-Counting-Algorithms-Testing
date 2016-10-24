@@ -88,6 +88,7 @@ class WpdPreProcessor:
                 if ds == 'end':
                     self.dataQueue.enqueue('end')
                     self.completed = True
+                    self.active = False
                     return
 
                 # Handling for the first data point received

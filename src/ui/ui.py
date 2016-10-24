@@ -27,7 +27,7 @@ class UI:
 
     def handle_wpd(self, wpd):
 
-        lists = [wpd.data, wpd.smoothedData, wpd.peakScoreData, wpd.peakData, wpd.confirmedPeaks]
+        lists = [wpd.data, wpd.preprocessData, wpd.smoothedData, wpd.peakScoreData, wpd.peakData, wpd.confirmedPeaks]
         i = 0
         for l in lists:
             x = []

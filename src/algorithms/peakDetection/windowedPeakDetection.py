@@ -42,6 +42,7 @@ class Wpd:
 
         # Internal plottable lists for plottable data
         self.data = []
+        self.preprocessData = []
         self.smoothedData = []
         self.peakScoreData = []
         self.peakData = []
@@ -49,7 +50,7 @@ class Wpd:
 
         # Internal 'worker threads' in the form of objects
         self.preProcessing = WpdPreProcessor(preProcessingParams, self.inputQueue, self.data, self.dataQueue)
-        self.window = Constants.SMOOTHING_WINDOWS[windowType](windowParams, self.dataQueue, self.smoothedDataQueue)
+        self.window = Constants.SMOOTHING_WINDOWS[windowType](windowParams, self.dataQueue, self.preprocessData, self.smoothedDataQueue)
         self.peakScorer = Constants.PEAKY_FUNCTIONS[peakFuncType](peakFuncParams, self.smoothedDataQueue, self.smoothedData, self.peakScores)
         self.peakDetection = PeakDetector(peakDetectorParams, self.peakScores, self.peakScoreData, self.peaks)
         self.postProcessing = WpdPostProcessor(postProcessingParams, self.peaks, self.peakData, self.confirmedPeaks)

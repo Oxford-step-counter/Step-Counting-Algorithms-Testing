@@ -10,7 +10,6 @@
 #=========================================================================#
 from src.infra.dataStructure import DataStructure
 from src.infra.simpleDataStructure import Sds
-from src.constants import Constants
 
 
 # Function to load in the accelerometer data from the CSV file.
@@ -33,9 +32,9 @@ def loadCsv(filepath):
 def initLogs():
 
     # Create clean files
-    with open(Constants.THREAD_LOG, 'w') as f:
+    with open('threadlog.txt', 'w') as f:
         pass
-    with open(Constants.ERROR_LOG, 'w') as f:
+    with open('errorlog.txt', 'w') as f:
         pass
 
 
@@ -43,7 +42,7 @@ def initLogs():
 # @args:
 #   1. s - string to write to log.
 def threadLog(s):
-    with open(Constants.THREAD_LOG, 'a') as f:
+    with open('threadlog.txt', 'a') as f:
         f.write(s)
         f.write('\r\n')
 
@@ -52,7 +51,7 @@ def threadLog(s):
 # @args :
 #   1. s - string to write to log
 def errorLog(s):
-    with open(Constants.ERROR_LOG, 'a') as f :
+    with open('errorlog.txt', 'a') as f :
         f.write(s)
         f.write('\r\n')
 
