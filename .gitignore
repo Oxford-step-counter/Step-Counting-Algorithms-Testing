@@ -6,3 +6,6 @@
 
 #Ignore compiled python
 *.pyc
+
+#Ignore PyCharm generated stuff
+.idea/*
