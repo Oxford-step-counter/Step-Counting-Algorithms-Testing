@@ -1,17 +1,17 @@
 
 class CenterMovingAvg :
 
-    def __init__(self, params, inputData, smoothData) :
+    def __init__(self, params, inputData, smoothData):
         pass
 
-    def start(self) :
+    def start(self):
         pass
 
-    def stop(self) :
+    def stop(self):
         pass
 
-    def isRunning(self) :
+    def isRunning(self):
         return False
 
-    def isDone(self) :
+    def isDone(self):
         return True

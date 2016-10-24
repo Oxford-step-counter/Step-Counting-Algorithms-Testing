@@ -11,26 +11,27 @@
 
 from collections import deque
 
-#Basic implementation of queue wrapping around the deque class.
-class Queue :
 
-    def __init__(self) :
+# Basic implementation of queue wrapping around the deque class.
+class Queue:
+
+    def __init__(self):
         self.queue = deque()
 
-    def isEmpty(self) :
+    def isEmpty(self):
         return len(self.queue) == 0
     
-    def enqueue(self, item) :
+    def enqueue(self, item):
         self.queue.append(item)
 
-    def dequeue(self) :
+    def dequeue(self):
         return self.queue.popleft()
 
-    def size(self) :
+    def size(self):
         return len(self.queue)
 
-    def __getitem__(self, i) :
+    def __getitem__(self, i):
         return self.queue[i]
 
-    def __len__(self) :
+    def __len__(self):
         return len(self.queue)

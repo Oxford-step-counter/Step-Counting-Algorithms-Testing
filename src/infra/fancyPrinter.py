@@ -15,11 +15,11 @@ class FancyPrinter :
     def __init__(self) :
         self.prev_len = 0
 
-    #Print function. Takes any object that can be turned into a string.
-    #Overwrites the previous message with spaces to erase it and then
-    #returns to the start of the line.
-    def fprint(self, obj) :
+    # Print function. Takes any object that can be turned into a string.
+    # Overwrites the previous message with spaces to erase it and then
+    # returns to the start of the line.
+    def fprint(self, obj):
 
-        print(' ' * self.prev_len, end = '\r')
-        print(str(obj), end = '\r')
+        print(' ' * self.prev_len, end='\r')
+        print(str(obj), end='\r')
         self.prev_len = len(str(obj))

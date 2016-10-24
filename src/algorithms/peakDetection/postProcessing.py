@@ -1,17 +1,17 @@
 
-class WpdPostProcessor :
+class WpdPostProcessor:
 
-    def __init__(self, params, inputPeaks, plotPeaks, confirmedPeaks) :
+    def __init__(self, params, inputPeaks, plotPeaks, confirmedPeaks):
         pass
 
-    def start(self) :
+    def start(self):
         pass
 
-    def stop(self) :
+    def stop(self):
         pass
 
-    def isRunning(self) :
+    def isRunning(self):
         return False
 
-    def isDone(self) :
+    def isDone(self):
         return True

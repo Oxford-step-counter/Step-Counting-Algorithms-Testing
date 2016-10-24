@@ -19,9 +19,10 @@ from src.algorithms.peakDetection.peakDetector import PeakDetector
 from src.algorithms.peakDetection.postProcessing import WpdPostProcessor
 from src.algorithms.peakDetection.preProcessing import WpdPreProcessor
 
-class Wpd :
 
-    #Constructor for the object.
+class Wpd:
+
+    # Constructor for the object.
     # @args :
     #   1. queue - the input data stream queue from inputPipe
     #   2. preProcessingParams - parameters for the preprocessor, see preProcessing.py for docs
@@ -32,16 +33,16 @@ class Wpd :
     #   7. peakDetectorParams - parameters for the peak detector, see peakDetector.py for docs.
     #   8. postProcessingParams - parameters for post processing, see postProcessing.py for docs.
     #   9. uiCallbackHandler - handler for updating graphs and UI
-    def __init__(self, queue, preProcessingParams, windowType, windowParams, peakFuncType, peakFuncParams, peakDetectorParams, postProcessingParams, uiCallbackHandler) :
+    def __init__(self, queue, preProcessingParams, windowType, windowParams, peakFuncType, peakFuncParams, peakDetectorParams, postProcessingParams, uiCallbackHandler):
 
-        #Internal queues for data flow
+        # Internal queues for data flow
         self.inputQueue = queue
         self.dataQueue = Queue()
         self.smoothedDataQueue = Queue()
         self.peakScores = Queue()
         self.peaks = Queue()
 
-        #Internal plottable lists for plottable data
+        # Internal plottable lists for plottable data
         self.data = PlottableList()
         self.smoothedData = PlottableList()
         self.peakScoreData = PlottableList()
@@ -54,30 +55,24 @@ class Wpd :
         self.peakData.subscribe(uiCallbackHandler, 'peak_data')
         self.confirmedPeaks.subscribe(uiCallbackHandler, 'confirmed_peak_data')
 
-        #Internal 'worker threads' in the form of objects
+        # Internal 'worker threads' in the form of objects
         self.preProcessing = WpdPreProcessor(preProcessingParams, self.inputQueue, self.data, self.dataQueue)
         self.window = Constants.SMOOTHING_WINDOWS[windowType](windowParams, self.dataQueue, self.smoothedDataQueue)
         self.peakScorer = Constants.PEAKY_FUNCTIONS[peakFuncType](peakFuncParams, self.smoothedDataQueue, self.smoothedData, self.peakScores)
         self.peakDetection = PeakDetector(peakDetectorParams, self.peakScores, self.peakScoreData, self.peaks)
         self.postProcessing = WpdPostProcessor(postProcessingParams, self.peaks, self.peakData, self.confirmedPeaks)
 
+    # Start algorithm signal, kicks off all the worker threads for the various stages
+    def start(self):
 
-    #Start algorithm signal, kicks off all the worker threads for the various stages
-    def start(self) :
-        #Start preprocessing thread
         self.preProcessing.start()
-        #Start window smoothing thread
         self.window.start()
-        #Start peak function thread
         self.peakScorer.start()
-        #Start peak detection thread
         self.peakDetection.start()
-        #Start data post processing thread
         self.postProcessing.start()
 
-
-    #Stop algorithm signal, halts all the worker threads after the current operation
-    def stop(self) :
+    # Stop algorithm signal, halts all the worker threads after the current operation
+    def stop(self):
 
         self.preProcessing.stop()
         self.window.stop()
@@ -85,37 +80,29 @@ class Wpd :
         self.peakDetection.stop()
         self.postProcessing.stop()
 
+    # Check if the algorithm is done
+    def isDone(self):
+        return self.preProcessing.isDone()and self.window.isDone() and self.peakScorer.isDone() and self.peakDetection.isDone() and self.postProcessing.isDone()
 
-    #Check if the algorithm is done
-    def isDone(self) :
-        return self.preProcessing.isDone() and self.window.isDone() and self.peakScorer.isDone() and self.peakDetection.isDone() and self.postProcessing.isDone()
-
-
-    #Check if the algorithm is still running
-    def isRunning(self) :
+    # Check if the algorithm is still running
+    def isRunning(self):
         return self.preProcessing.isRunning() or self.window.isRunning() or self.peakScorer.isRunning() or self.peakDetection.isRunning() or self.postProcessing.isRunning()
 
-
-    #Getters
-    def getRawData(self) :
+    # Getters
+    def getRawData(self):
         return self.data
 
-
-    def getProcessedDataSize(self) :
+    def getProcessedDataSize(self):
         return self.dataQueue.size()
 
-
-    def getSmoothedData(self) :
+    def getSmoothedData(self):
         return self.smoothedData
 
-
-    def getPeakyData(self) :
+    def getPeakyData(self):
         return self.peakyData
 
-
-    def getPeaks(self) :
+    def getPeaks(self):
         return self.confirmedPeaks
 
-
-    def getSteps(self) :
+    def getSteps(self):
         return len(self.confirmedPeaks)
