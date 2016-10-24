@@ -31,7 +31,8 @@ class Wpd :
     #   6. peakFuncParams - parameters for the peak scoring function, see relevant scoring function for docs.
     #   7. peakDetectorParams - parameters for the peak detector, see peakDetector.py for docs.
     #   8. postProcessingParams - parameters for post processing, see postProcessing.py for docs.
-    def __init__(self, queue, preProcessingParams, windowType, windowParams, peakFuncType, peakFuncParams, peakDetectorParams, postProcessingParams) :
+    #   9. uiCallbackHandler - handler for updating graphs and UI
+    def __init__(self, queue, preProcessingParams, windowType, windowParams, peakFuncType, peakFuncParams, peakDetectorParams, postProcessingParams, uiCallbackHandler) :
 
         #Internal queues for data flow
         self.inputQueue = queue
@@ -46,6 +47,12 @@ class Wpd :
         self.peakScoreData = PlottableList()
         self.peakData = PlottableList()
         self.confirmedPeaks = PlottableList()
+
+        self.data.subscribe(uiCallbackHandler, 'raw_data')
+        self.smoothedData.subscribe(uiCallbackHandler, 'smooth_data')
+        self.peakScoreData.subscribe(uiCallbackHandler, 'peak_score_data')
+        self.peakData.subscribe(uiCallbackHandler, 'peak_data')
+        self.confirmedPeaks.subscribe(uiCallbackHandler, 'confirmed_peak_data')
 
         #Internal 'worker threads' in the form of objects
         self.preProcessing = WpdPreProcessor(preProcessingParams, self.inputQueue, self.data, self.dataQueue)
