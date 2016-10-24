@@ -13,6 +13,7 @@
 from src.constants import Constants
 
 from src.infra.queue import Queue
+from src.infra.plottableList import PlottableList
 
 from src.algorithms.peakDetection.peakDetector import PeakDetector
 from src.algorithms.peakDetection.postProcessing import WpdPostProcessor
@@ -31,8 +32,6 @@ class Wpd :
     #   7. peakDetectorParams - parameters for the peak detector, see peakDetector.py for docs.
     #   8. postProcessingParams - parameters for post processing, see postProcessing.py for docs.
     def __init__(self, queue, preProcessingParams, windowType, windowParams, peakFuncType, peakFuncParams, peakDetectorParams, postProcessingParams) :
-        #Data about found peaks.
-        self.confirmedPeaks = []
 
         #Internal queues for data flow
         self.inputQueue = queue
@@ -41,17 +40,19 @@ class Wpd :
         self.peakScores = Queue()
         self.peaks = Queue()
 
-        #Internal list for permanent data
-        self.data = []
-        self.smoothedData = []
-        self.peakyData = []
+        #Internal plottable lists for plottable data
+        self.data = PlottableList()
+        self.smoothedData = PlottableList()
+        self.peakScoreData = PlottableList()
+        self.peakData = PlottableList()
+        self.confirmedPeaks = PlottableList()
 
         #Internal 'worker threads' in the form of objects
         self.preProcessing = WpdPreProcessor(preProcessingParams, self.inputQueue, self.data, self.dataQueue)
         self.window = Constants.SMOOTHING_WINDOWS[windowType](windowParams, self.dataQueue, self.smoothedDataQueue)
         self.peakScorer = Constants.PEAKY_FUNCTIONS[peakFuncType](peakFuncParams, self.smoothedDataQueue, self.smoothedData, self.peakScores)
-        self.peakDetection = PeakDetector(peakDetectorParams, self.peakScores, self.peakyData, self.peaks)
-        self.postProcessing = WpdPostProcessor(postProcessingParams, self.peaks, self.confirmedPeaks)
+        self.peakDetection = PeakDetector(peakDetectorParams, self.peakScores, self.peakScoreData, self.peaks)
+        self.postProcessing = WpdPostProcessor(postProcessingParams, self.peaks, self.peakData, self.confirmedPeaks)
 
 
     #Start algorithm signal, kicks off all the worker threads for the various stages

@@ -1,7 +1,7 @@
 
 class WpdPostProcessor :
 
-    def __init__(self, params, peaks, confirmedPeaks) :
+    def __init__(self, params, inputPeaks, plotPeaks, confirmedPeaks) :
         pass
 
     def start(self) :
