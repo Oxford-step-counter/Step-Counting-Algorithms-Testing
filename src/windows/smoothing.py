@@ -62,6 +62,7 @@ class CenterMovingAvg:
         while self.active:
             if not self.inputQueue.isEmpty():
 
+                # Get next data point
                 dp = self.inputQueue.dequeue()
 
                 # Special handling for end data stream
@@ -79,7 +80,7 @@ class CenterMovingAvg:
                     ssum = 0
                     for i in range(len(self.window)):
                         ssum += self.window[i].mag
-
+                    # Average of all points in the window
                     new_dp = Sds(self.window[int(self.windowSize / 2)].time, ssum / self.windowSize)
                     self.outputQueue.enqueue(new_dp)
                     self.window.dequeue()

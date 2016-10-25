@@ -19,8 +19,8 @@ from src.algorithms.peakDetection.peakFuncs import MaxDiff
 # Class to contain constants
 class Constants:
 
-    THREAD_SLEEP_PERIOD = 0.00 # Note that this is in seconds. (10 ms)
-    SAMPLE_PERIOD = 0.00 # Note this is in seconds. (10 ms)
+    THREAD_SLEEP_PERIOD = 0.00  # Note that this is in seconds. (10 ms)
+    SAMPLE_PERIOD = 0.00  # Note this is in seconds. (10 ms)
 
     # Dictionary for types of smoothing windows
     SMOOTHING_WINDOWS = dict()
@@ -68,7 +68,9 @@ class Constants:
     UI_GRAPHS_POS['wpd']['peak_data'] = [235]
     UI_GRAPHS_POS['wpd']['confirmed_peak_data'] = [236]
 
+    # Log file locations
     THREAD_LOG = 'thread_log.txt'
     ERROR_LOG = 'error_log.txt'
 
+    # Fancy printer instance
     fp = FancyPrinter()
