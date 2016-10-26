@@ -1,51 +1,9 @@
-
-from threading import Thread
-
 from src.infra.queue import Queue
 from src.infra.simpleDataStructure import Sds
+from src.infra.workerThread import WorkerThread
 
-class MaxDiff:
 
-    # Constructor for the object
-    # @args:
-    #   1. params - dictionary containing relevant parameters
-    #       a. 'window_size' - size of the window
-    #   2. smoothData - queue containing smoothed data
-    #   3. smoothDataList - list containing smoothed data
-    #   4. peakScores - queue containing peak scores data
-    def __init__(self, params, smoothData, smoothDataList, peakScores):
-
-        # Thread variables
-        self.thread = None
-        self.active = False
-        self.completed = False
-
-        # Internal references for smooth data
-        self.inputQueue = smoothData
-        self.data = smoothDataList
-        self.outputQueue = peakScores
-
-        # Internal window
-        self.window = Queue()
-
-        # Parameter unpacking
-        self.windowSize = params['window_size']
-
-    def start(self):
-        # Start 'worker thread'
-        self.active = True
-        self.thread = Thread(target=self.maxDiff, args=())
-        self.thread.daemon = True
-        self.thread.start()
-
-    def stop(self):
-        self.active = False
-
-    def isRunning(self):
-        return self.active and (True if (self.thread is not None and self.thread.isAlive) else False)
-
-    def isDone(self):
-        return self.completed
+class PeakScorer(WorkerThread):
 
     def maxDiff(self):
         while self.active:
@@ -90,3 +48,35 @@ class MaxDiff:
                     new_dp = Sds(self.window[midPoint].time, avg, self.window[midPoint].mag)
                     self.outputQueue.enqueue(new_dp)
                     self.window.dequeue()
+
+    # Constructor for the object
+    # @args:
+    #   1. params - dictionary containing relevant parameters
+    #       a. 'window_size_md' - size of the window for maxDiff
+    #       b. 'type' - the type of scorer to use
+    #   2. smoothData - queue containing smoothed data
+    #   3. smoothDataList - list containing smoothed data
+    #   4. peakScores - queue containing peak scores data
+    def __init__(self, params, smoothData, smoothDataList, peakScores):
+
+        super(PeakScorer, self).__init__()
+
+        # Internal references for smooth data
+        self.inputQueue = smoothData
+        self.data = smoothDataList
+        self.outputQueue = peakScores
+
+        # Internal window
+        self.window = Queue()
+
+        # Parameter unpacking
+        self.windowSize = params['window_size_md']
+        self.typ = params['type']
+
+        # Assign target
+        if self.typ == 'max_diff':
+            self.target = self.maxDiff
+        else:
+            raise Exception('Unknown peak scorer type: ' + self.typ)
+
+

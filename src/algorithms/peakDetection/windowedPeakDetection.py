@@ -17,6 +17,7 @@ from src.infra.queue import Queue
 from src.algorithms.peakDetection.peakDetector import PeakDetector
 from src.algorithms.peakDetection.postProcessing import WpdPostProcessor
 from src.algorithms.peakDetection.preProcessing import WpdPreProcessor
+from src.algorithms.peakDetection.peakFuncs import PeakScorer
 
 
 class Wpd:
@@ -53,7 +54,7 @@ class Wpd:
         # Internal 'worker threads' in the form of objects
         self.preProcessing = WpdPreProcessor(preProcessingParams, self.inputQueue, self.data, self.dataQueue)
         self.window = Constants.SMOOTHING_WINDOWS[windowType](windowParams, self.dataQueue, self.preprocessData, self.smoothedDataQueue)
-        self.peakScorer = Constants.PEAKY_FUNCTIONS[peakFuncType](peakFuncParams, self.smoothedDataQueue, self.smoothedData, self.peakScores)
+        self.peakScorer = PeakScorer(peakFuncParams, self.smoothedDataQueue, self.smoothedData, self.peakScores)
         self.peakDetection = PeakDetector(peakDetectorParams, self.peakScores, self.peakScoreData, self.peaks, self.peakData)
         self.postProcessing = WpdPostProcessor(postProcessingParams, self.peaks, self.confirmedPeaks)
 

@@ -13,8 +13,6 @@ from src.infra.fancyPrinter import FancyPrinter
 
 from src.windows.smoothing import CenterMovingAvg as Cma
 
-from src.algorithms.peakDetection.peakFuncs import MaxDiff
-
 
 # Class to contain constants
 class Constants:
@@ -25,10 +23,6 @@ class Constants:
     # Dictionary for types of smoothing windows
     SMOOTHING_WINDOWS = dict()
     SMOOTHING_WINDOWS['center_moving_avg'] = Cma
-
-    # Dictionary for types of peakiness functions for windowed peak detection
-    PEAKY_FUNCTIONS = dict()
-    PEAKY_FUNCTIONS['max_diff'] = MaxDiff
 
     # Dictionary for graph iterables for UI
     UI_GRAPHS = dict()
