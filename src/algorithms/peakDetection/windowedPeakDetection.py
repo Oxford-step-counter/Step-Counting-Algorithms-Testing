@@ -33,6 +33,8 @@ class Wpd:
     #   8. postProcessingParams - parameters for post processing, see postProcessing.py for docs.
     def __init__(self, queue, preProcessingParams, windowType, windowParams, peakFuncType, peakFuncParams, peakDetectorParams, postProcessingParams):
 
+        self.name = 'wpd'
+
         # Internal queues for data flow
         self.inputQueue = queue
         self.dataQueue = Queue()
@@ -82,20 +84,12 @@ class Wpd:
         return self.preProcessing.isRunning() or self.window.isRunning() or self.peakScorer.isRunning() or self.peakDetection.isRunning() or self.postProcessing.isRunning()
 
     # Getters
-    def getRawData(self):
-        return self.data
 
-    def getProcessedDataSize(self):
-        return self.dataQueue.size()
+    def getData(self):
+        return [self.data, self.preprocessData, self.smoothedData, self.peakScoreData, self.peakData, self.confirmedPeaks]
 
-    def getSmoothedData(self):
-        return self.smoothedData
-
-    def getPeakyData(self):
-        return self.peakyData
-
-    def getPeaks(self):
-        return self.confirmedPeaks
+    def getName(self):
+        return self.name
 
     def getSteps(self):
         return len(self.confirmedPeaks)

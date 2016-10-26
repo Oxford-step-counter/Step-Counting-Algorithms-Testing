@@ -32,7 +32,7 @@ class Constants:
 
     # Dictionary for graph iterables for UI
     UI_GRAPHS = dict()
-    UI_GRAPHS['wpd'] = ['raw_data', 'pre_process_data','smooth_data', 'peak_score_data', 'peak_data', 'confirmed_peak_data']
+    UI_GRAPHS['wpd'] = ['raw_data', 'pre_process_data', 'smooth_data', 'peak_score_data', 'peak_data', 'confirmed_peak_data']
 
     # Dictionary for labels on axes.
     UI_GRAPHS_AXES = dict()
