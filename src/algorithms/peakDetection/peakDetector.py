@@ -1,57 +1,24 @@
+# ======================================================================== #
+#
+#       peakDetector.py
+#       Jamieson Brynes
+#       10/22/2016
+#
+#       This class contains the implementation of the peak detection
+#       algorithm. It uses a simple mean and standard deviation method
+#       to find significant values of peak scores.
+#
+# ======================================================================== #
 
-from threading import Thread
 import math
 
 from src.infra.simpleDataStructure import Sds
+from src.infra.workerThread import WorkerThread
 
 
-class PeakDetector:
+class PeakDetector(WorkerThread):
 
-    # Constructor for the object
-    # @args:
-    #   1. params - dictionary with parameters
-    #       a. 'threshold' - standard deviation threshold to call a peak a peak
-    #   2. peakScores - input data queue containing the peak scores
-    #   3. peakScoreData - list to put the peak score data
-    #   4. peaks - output data queue containing identified peaks
-    #   5. peakData - output data list to put identified peaks
-    def __init__(self, params, peakScores, peakScoreData, peaks, peakData):
-
-        # Thread variables
-        self.thread = None
-        self.active = False
-        self.completed = False
-
-        # Internal data representations
-        self.inputQueue = peakScores
-        self.data = peakScoreData
-        self.outputQueue = peaks
-        self.dataout = peakData
-
-        # Internal statistics
-        self.n = 0
-        self.mean = 0
-        self.std = 0
-
-        # Param unpacking
-        self.threshold = params['threshold']
-
-    def start(self):
-        # Start worker thread
-        self.active = True
-        self.thread = Thread(target=self.peakDetect, args=())
-        self.thread.daemon = True
-        self.thread.start()
-
-    def stop(self):
-        self.active = False
-
-    def isRunning(self):
-        return self.active and (True if self.thread is not None and self.thread.isAlive() else False)
-
-    def isDone(self):
-        return self.completed
-
+    # Worker function for peak detection.
     def peakDetect(self):
         while self.active:
             if not self.inputQueue.isEmpty():
@@ -90,6 +57,36 @@ class PeakDetector:
                         # Declare this a peak
                         self.outputQueue.enqueue(Sds(dp.time, dp.oldMag))
                         self.dataout.append(Sds(dp.time, dp.oldMag))
+
+    # Constructor for the object
+    # @args:
+    #   1. params - dictionary with parameters
+    #       a. 'threshold' - standard deviation threshold to call a peak a peak
+    #   2. peakScores - input data queue containing the peak scores
+    #   3. peakScoreData - list to put the peak score data
+    #   4. peaks - output data queue containing identified peaks
+    #   5. peakData - output data list to put identified peaks
+    def __init__(self, params, peakScores, peakScoreData, peaks, peakData):
+
+        super(PeakDetector, self).__init__()
+        self.target = self.peakDetect
+
+        # Internal data representations
+        self.inputQueue = peakScores
+        self.data = peakScoreData
+        self.outputQueue = peaks
+        self.dataout = peakData
+
+        # Internal statistics
+        self.n = 0
+        self.mean = 0
+        self.std = 0
+
+        # Param unpacking
+        self.threshold = params['threshold']
+
+
+
 
 
 

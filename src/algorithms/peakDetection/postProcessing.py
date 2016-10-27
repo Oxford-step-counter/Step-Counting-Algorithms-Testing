@@ -1,50 +1,20 @@
-
-from threading import Thread
+# ======================================================================== #
+#
+#       postProcessing.py
+#       Jamieson Brynes
+#       10/22/2016
+#
+#       This class contains the implementation of the post-processing stage.
+#
+# ========================================================================= #
 
 from src.infra.queue import Queue
+from src.infra.workerThread import WorkerThread
 
 
-class WpdPostProcessor:
+class WpdPostProcessor(WorkerThread):
 
-    # Constructor
-    # @args:
-    #   1. params - dictionary to contain parameters
-    #       a. 'time_threshold' - time threshold for eliminating peaks
-    #   2. inputPeaks - input data queue with potential peaks
-    #   3. confirmedPeaks - output data list for confirmed peaks
-    def __init__(self, params, inputPeaks, confirmedPeaks):
-
-        # Thread variables
-        self.thread = None
-        self.active = False
-        self.completed = False
-
-        # Internal references
-        self.inputQueue = inputPeaks
-        self.outputList = confirmedPeaks
-
-        # Param unpacking
-        self.timeThreshold = params['time_threshold']
-
-        # Internal queue
-        self.queue = Queue()
-
-    def start(self):
-        # Start 'worker thread'
-        self.active = True
-        self.thread = Thread(target=self.postProcess, args=())
-        self.thread.daemon = True
-        self.thread.start()
-
-    def stop(self):
-        self.active = False
-
-    def isRunning(self):
-        return self.active and (True if self.thread is not None and self.thread.isAlive() else False)
-
-    def isDone(self):
-        return self.completed
-
+    # Worker function for the post processing
     def postProcess(self):
         while self.active:
             if not self.inputQueue.isEmpty():
@@ -75,8 +45,23 @@ class WpdPostProcessor:
                             pop = self.queue.dequeue()
                             self.queue.enqueue(dp)
 
+    # Constructor
+    # @args:
+    #   1. params - dictionary to contain parameters
+    #       a. 'time_threshold' - time threshold for eliminating peaks
+    #   2. inputPeaks - input data queue with potential peaks
+    #   3. confirmedPeaks - output data list for confirmed peaks
+    def __init__(self, params, inputPeaks, confirmedPeaks):
 
+        super(WpdPostProcessor, self).__init__()
+        self.target = self.postProcess
 
+        # Internal references
+        self.inputQueue = inputPeaks
+        self.outputList = confirmedPeaks
 
+        # Param unpacking
+        self.timeThreshold = params['time_threshold']
 
-
+        # Internal queue
+        self.queue = Queue()

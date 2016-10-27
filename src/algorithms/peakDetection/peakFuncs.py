@@ -1,3 +1,5 @@
+import math
+
 from src.infra.queue import Queue
 from src.infra.simpleDataStructure import Sds
 from src.infra.workerThread import WorkerThread

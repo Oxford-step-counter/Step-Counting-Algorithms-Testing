@@ -11,18 +11,12 @@
 
 from src.infra.fancyPrinter import FancyPrinter
 
-from src.windows.smoothing import CenterMovingAvg as Cma
-
 
 # Class to contain constants
 class Constants:
 
     THREAD_SLEEP_PERIOD = 0.00  # Note that this is in seconds. (10 ms)
     SAMPLE_PERIOD = 0.00  # Note this is in seconds. (10 ms)
-
-    # Dictionary for types of smoothing windows
-    SMOOTHING_WINDOWS = dict()
-    SMOOTHING_WINDOWS['center_moving_avg'] = Cma
 
     # Dictionary for graph iterables for UI
     UI_GRAPHS = dict()
