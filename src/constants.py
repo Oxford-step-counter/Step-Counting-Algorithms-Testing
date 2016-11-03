@@ -55,6 +55,7 @@ class Constants:
     UI_GRAPHS_POS['wpd']['peak_score_data'] = [234]
     UI_GRAPHS_POS['wpd']['peak_data'] = [235]
     UI_GRAPHS_POS['wpd']['confirmed_peak_data'] = [236]
+    UI_GRAPHS_POS['wpd']['steps'] = [236]
 
     # Log file locations
     THREAD_LOG = 'thread_log.txt'
