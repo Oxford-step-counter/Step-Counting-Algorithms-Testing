@@ -55,7 +55,7 @@ class InputPipe:
     # Worker function for the thread
     def pipeInput(self):
 
-        data = utils.loadCsv(self.filepath)
+        data = utils.loadAccelCsv(self.filepath)
 
         for datapoint in data:
             self.queue.enqueue(datapoint)

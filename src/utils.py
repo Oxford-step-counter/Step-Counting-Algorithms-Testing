@@ -16,14 +16,35 @@ from src.infra.simpleDataStructure import Sds
 # @args:
 #   1. filepath - path to the .csv file location
 # TODO : Add exception handling
-def loadCsv(filepath):
+def loadAccelCsv(filepath):
 
     data = []
-    with open(filepath, 'r') as f :
-        for line in f :
+    with open(filepath, 'r') as f:
+        for line in f:
             s_line = line.split(',')
             ds = DataStructure(int(s_line[0]), float(s_line[2]), float(s_line[3]), float(s_line[4]))
             data.append(ds)
+
+    return data
+
+
+# Function to load in the step counter data and adjust the timescale
+# @args:
+#   1. filepath - location of the .csv with step data
+#   2. timeData - dictionary containing the parameters necessary
+#       a. 'offset' - time offset from the accelerometer csv
+#       b. 'scale' - the time scaling factor
+def loadStepCsv(filepath, timeData):
+
+    offset = timeData['offset']
+    scale = timeData['scale']
+
+    data = []
+    with open(filepath, 'r') as f:
+        for line in f:
+            s_line = line.split(',')
+            time = (int(s_line[0]) - offset) / scale
+            data.append((int(s_line[0]) - offset)/scale)
 
     return data
 
