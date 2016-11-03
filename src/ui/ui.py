@@ -22,6 +22,7 @@ class UI:
         self.subplots = {}
         name = algo.getName()
         lists = algo.getData()
+        steps = algo.steps
         i = 0
 
         for l in lists:
@@ -45,5 +46,13 @@ class UI:
                 self.subplots[position].set_ylabel(axesData['y'])
                 self.subplots[position].plot(x, y, marker=lineData['marker'], linestyle=lineData['line'])
 
+            i += 1
+
+        position = Constants.UI_GRAPHS_POS[name]['steps'][0]
+        i = 0
+        for step in steps:
+            self.subplots[position].axvline(x=step, ymin=0, ymax=1)
+            if i > 9:
+                break
             i += 1
         plt.show()
