@@ -59,7 +59,7 @@ class InputPipe:
 
         for datapoint in data:
             self.queue.enqueue(datapoint)
-            time.sleep(Constants.SAMPLE_PERIOD)
+            # time.sleep(Constants.SAMPLE_PERIOD)
 
         # Add an 'end' signal to the pipe to indicate the end of the data stream
         self.queue.enqueue('end')

@@ -56,7 +56,7 @@ class Wpd:
         self.steps = []
 
         # Internal 'worker threads' in the form of objects
-        self.pipe = InputPipe(self.filelocation+'accelerometer.csv', self.inputQueue)
+        self.pipe = InputPipe(self.filelocation, self.inputQueue)
         self.preProcessing = WpdPreProcessor(preProcessingParams, self.inputQueue, self.data, self.dataQueue)
         self.smoothingFilter = SmoothingFilter(windowParams, self.dataQueue, self.preprocessData, self.smoothedDataQueue)
         self.peakScorer = PeakScorer(peakFuncParams, self.smoothedDataQueue, self.smoothedData, self.peakScores)
