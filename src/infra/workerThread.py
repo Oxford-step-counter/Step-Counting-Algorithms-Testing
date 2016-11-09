@@ -20,11 +20,11 @@ class WorkerThread:
         self.thread = Thread(target=self.target, args=self.args)
         self.thread.daemon = True
         self.thread.start()
-        utils.threadLog('Pre-processing thread started')
+        # utils.threadLog('Pre-processing thread started')
 
     # Stop signal, end thread after current operation is done
     def stop(self):
-        utils.threadLog('Pre-processing thread stopped.')
+        # utils.threadLog('Pre-processing thread stopped.')
         self.active = False
 
     # Check if the thread is running
