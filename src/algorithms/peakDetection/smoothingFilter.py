@@ -16,9 +16,9 @@ from src.infra.simpleDataStructure import Sds
 
 from scipy import special
 
-
 class SmoothingFilter(WorkerThread):
 
+    # Worker function for the centered moving average filter.
     def centeredMovingAvg(self):
         self.windowSize = self.params['window_size']
         while self.active:
@@ -47,6 +47,7 @@ class SmoothingFilter(WorkerThread):
                     self.outputQueue.enqueue(new_dp)
                     self.window.dequeue()
 
+    # Worker function for the Hann windowed filter
     def hann(self):
 
         self.windowSize = self.params['window_size']
@@ -79,6 +80,7 @@ class SmoothingFilter(WorkerThread):
                     self.outputQueue.enqueue(new_dp)
                     self.window.dequeue()
 
+    # Worker function for the Gaussian filter
     def gaussian(self):
 
         self.windowSize = self.params['window_size']
@@ -112,6 +114,7 @@ class SmoothingFilter(WorkerThread):
                     self.outputQueue.enqueue(new_dp)
                     self.window.dequeue()
 
+    # Worker function for the Kaiser-Bessel filter.
     def kaiserBessel(self):
         self.windowSize = self.params['window_size']
         self.cutoff_freq = self.params['cutoff_freq']
@@ -177,6 +180,11 @@ class SmoothingFilter(WorkerThread):
         else:
             self.target = self.centeredMovingAvg
 
+    # Function to generate the hann window coefficients
+    # @args:
+    #   1. windowSize - size of the Hann window
+    # @return:
+    #   1. window - list of window coefficients.
     @staticmethod
     def hannCoeffs(windowSize):
 
@@ -186,6 +194,12 @@ class SmoothingFilter(WorkerThread):
             window.append(value)
         return window
 
+    # Function to generate the Gaussian window coefficients
+    # @args:
+    #   1. windowSize - size of the Gaussian window
+    #   2. std - adjusted standard deviation (scaling factor w/ windowSize)
+    # @return:
+    #   1. window - list of window coefficients.
     @staticmethod
     def gaussianCoeffs(windowSize, std):
         window = []
@@ -196,6 +210,13 @@ class SmoothingFilter(WorkerThread):
 
         return window
 
+    # Function to generate the Kaiser-Bessel filter coefficients
+    # @args:
+    #   1. windowSize - size of the filter window
+    #   2. cutoff_f - cutoff frequency of the filter
+    #   3. sampling_f - sampling frequency of the data
+    # @return:
+    #   1. coeffs - coefficients of the Kaiser-Bessel filter
     @staticmethod
     def kaiserBesselCoeffs(windowSize, cutoff_f, sampling_f):
         coeffs = []
@@ -223,6 +244,9 @@ class SmoothingFilter(WorkerThread):
 
         return coeffs
 
+    # Implementation of the sinc(x) function in Python
+    # @return:
+    #   1. value - result of the sinc operator.
     @staticmethod
     def sinc(x):
         if x == 0:
