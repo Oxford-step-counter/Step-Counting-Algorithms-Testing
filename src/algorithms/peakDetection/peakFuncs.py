@@ -77,12 +77,12 @@ class PeakScorer(WorkerThread):
                     diffLeft = 0
                     diffRight = 0
 
-                    # Find max difference on left
+                    # Find total difference on left
                     for i in range(0, midPoint):
                         value = self.window[midPoint].mag - self.window[i].mag
                         diffLeft += value
 
-                    # Find max difference on right
+                    # Find total difference on right
                     for i in range(midPoint + 1, len(self.window)):
                         value = self.window[midPoint].mag - self.window[i].mag
                         diffRight += value
@@ -90,6 +90,45 @@ class PeakScorer(WorkerThread):
                     # Calculate peak score and create a new point
                     avg = (diffLeft + diffRight) / (self.windowSize - 1)
                     new_dp = Sds(self.window[midPoint].time, avg, self.window[midPoint].mag)
+                    self.outputQueue.enqueue(new_dp)
+                    self.window.dequeue()
+
+
+    def panTompkins(self):
+        while self.active:
+            if not self.inputQueue.isEmpty():
+
+                # Get next data point
+                dp = self.inputQueue.dequeue()
+
+                # Special case handling for end data point.
+                if dp == 'end':
+                    self.completed = True
+                    self.active = False
+                    self.outputQueue.enqueue('end')
+                    return
+
+                # Add data point to list and queue
+                self.data.append(dp)
+                self.window.enqueue(dp)
+
+                # Once we reach the window size, do some processing!
+                if len(self.window) == self.windowSize:
+
+                    midPoint = int(self.windowSize / 2)
+
+                    # Calculate mean of window
+                    ssum = 0
+                    for i in range(0,self.windowSize):
+                        ssum += self.window[i].mag
+                    mean = ssum / self.windowSize
+
+                    new_mag = 0 if self.window[midPoint].mag - mean < 0 else self.window[midPoint].mag - mean
+                    # Square it.
+                    new_mag *= new_mag
+
+                    # Calculate peak score and create a new point
+                    new_dp = Sds(self.window[midPoint].time, new_mag, self.window[midPoint].mag)
                     self.outputQueue.enqueue(new_dp)
                     self.window.dequeue()
 
@@ -122,6 +161,8 @@ class PeakScorer(WorkerThread):
             self.target = self.maxDiff
         elif self.typ == 'mean_diff':
             self.target = self.meanDiff
+        elif self.typ == 'pan_tompkins':
+            self.target = self.panTompkins
         else:
             raise Exception('Unknown peak scorer type: ' + self.typ)
 
