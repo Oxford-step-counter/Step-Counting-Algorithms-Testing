@@ -39,12 +39,23 @@ def loadStepCsv(filepath, timeData):
     offset = timeData['offset']
     scale = timeData['scale']
 
+    left_previous = 1
+    right_previous = 1
+
     data = []
     with open(filepath, 'r') as f:
         for line in f:
-            s_line = line.split(',')
-            time = (int(s_line[0]) - offset) / scale
-            data.append((int(s_line[0]) - offset)/scale)
+            s_line = line.replace('\n','').split(',')
+            # Check for feet transitioning from up to down.
+            if int(s_line[1]) == 1 and left_previous == 0:
+                time = (int(s_line[0]) - offset) / scale
+                data.append(time)
+            if int(s_line[2]) == 1 and right_previous == 0:
+                time = (int(s_line[0]) - offset) / scale
+                data.append(time)
+
+            left_previous = int(s_line[1])
+            right_previous = int(s_line[2])
 
     return data
 

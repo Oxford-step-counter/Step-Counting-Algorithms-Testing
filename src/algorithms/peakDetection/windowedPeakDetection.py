@@ -13,6 +13,7 @@ from src import utils
 
 from src.infra.inputPipe import InputPipe
 from src.infra.queue import Queue
+from src.infra.comparator import compare
 
 from src.algorithms.peakDetection.preProcessing import WpdPreProcessor
 from src.algorithms.peakDetection.smoothingFilter import SmoothingFilter
@@ -56,7 +57,7 @@ class Wpd:
         self.steps = []
 
         # Internal 'worker threads' in the form of objects
-        self.pipe = InputPipe(self.filelocation, self.inputQueue)
+        self.pipe = InputPipe(self.filelocation + 'accelerometer.csv', self.inputQueue)
         self.preProcessing = WpdPreProcessor(preProcessingParams, self.inputQueue, self.data, self.dataQueue)
         self.smoothingFilter = SmoothingFilter(windowParams, self.dataQueue, self.preprocessData, self.smoothedDataQueue)
         self.peakScorer = PeakScorer(peakFuncParams, self.smoothedDataQueue, self.smoothedData, self.peakScores)
@@ -101,10 +102,11 @@ class Wpd:
                + ',' + str(len(self.peaks)) \
                + ',' + str(len(self.confirmedPeaks))
 
-    def extractSteps(self):
+    def compare(self):
 
         timeData = {'scale': self.preProcessing.ts_factor, 'offset': self.preProcessing.startTime}
         self.steps = utils.loadStepCsv(self.filelocation + 'stepcounter.csv', timeData)
+        return compare(self.steps, self.confirmedPeaks, 120)
 
     # Check if the algorithm is done
     def isDone(self):

@@ -52,7 +52,5 @@ class UI:
         i = 0
         for step in steps:
             self.subplots[position].axvline(x=step, ymin=0, ymax=1)
-            if i > 9:
-                break
             i += 1
         plt.show()

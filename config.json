@@ -1,0 +1,28 @@
+{
+  "algorithm": {
+    "name":"wpd",
+    "params": {
+      "pre":{
+        "inter_ts": 10,
+        "ts_factor": 1000000
+      },
+      "filter": {
+        "window_size": 61,
+        "type": "kaiser_bessel",
+        "cutoff_freq": 3,
+        "sample_freq": 100
+      },
+      "scoring": {
+        "window_size": 3,
+        "type": "max_diff"
+      },
+      "detection": {
+        "threshold": 1.2
+      },
+      "post": {
+        "time_threshold": 100
+      }
+    }
+  },
+  "file_path": "../data/"
+}
