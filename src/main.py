@@ -4,10 +4,11 @@ import json
 sys.dont_write_bytecode = True
 
 from src.algorithms.peakDetection.windowedPeakDetection import Wpd
-#from src.ui.ui import UI
+from src.ui.ui import UI
 
 
 def main():
+
 
     # Load json configuration
     config = json.load(open("../config.json", 'r'))
@@ -35,11 +36,9 @@ def main():
         time.sleep(1)
 
     print("Algorithm complete. Running comparison.")
-    #result = algo.compare()
-    #print(result)
-    #print(len(algo.confirmedPeaks))
-    #print(len(algo.steps))
-    #ui = UI(algo)
+    result = algo.compare()
+    print(result)
+    ui = UI(algo)
 
 
 # Entry point
