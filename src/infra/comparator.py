@@ -61,4 +61,4 @@ def compare(stepsMaster, confirmedPeaks, threshold):
               + "\nFalse Negative Rate" \
               + str(falseNegativeRate)
 
-    return [num_steps, num_peaks, falsePositives, num_steps - confirmedSteps]
+    return [num_steps, confirmedSteps, falsePositives, num_steps - confirmedSteps]

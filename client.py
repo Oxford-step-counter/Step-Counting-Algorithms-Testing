@@ -48,8 +48,8 @@ def main():
 
         # Return data
         # Calculate final statistics
-        config['stats']['accuracy'] = config['stats']['detected'] / config['stats']['steps']
-        config['stats']['false_positive_rate'] = config['stats']['extra'] / config['stats']['detected']
+        config['stats']['accuracy'] = config['stats']['confirmed'] / config['stats']['steps']
+        config['stats']['false_positive_rate'] = config['stats']['extra'] / config['stats']['confirmed']
         config['stats']['false_negative_rate'] = config['stats']['missed'] / config['stats']['steps']
 
         #Calculate algorithm score
@@ -84,7 +84,7 @@ def getAlgoResults(algorithm, config):
     result = algorithm.compare()
     # Update stats
     config['stats']['steps'] += result[0]
-    config['stats']['detected'] += result[1]
+    config['stats']['confirmed'] += result[1]
     config['stats']['extra'] += result[2]
     config['stats']['missed'] += result[3]
 
