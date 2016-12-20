@@ -106,7 +106,7 @@ class Wpd:
 
         timeData = {'scale': self.preProcessing.ts_factor, 'offset': self.preProcessing.startTime}
         self.steps = utils.loadStepCsv(self.filelocation + 'stepcounter.csv', timeData)
-        return compare(self.steps, self.confirmedPeaks, 120)
+        return compare(self.steps, self.confirmedPeaks, 200)
 
     # Check if the algorithm is done
     def isDone(self):
