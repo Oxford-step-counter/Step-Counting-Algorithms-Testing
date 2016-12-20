@@ -9,8 +9,6 @@
 #
 #========================================================================#
 
-from src.infra.fancyPrinter import FancyPrinter
-
 
 # Class to contain constants
 class Constants:
@@ -61,5 +59,3 @@ class Constants:
     THREAD_LOG = 'thread_log.txt'
     ERROR_LOG = 'error_log.txt'
 
-    # Fancy printer instance
-    fp = FancyPrinter()
