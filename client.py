@@ -92,13 +92,13 @@ def getAlgoResults(algorithm, config):
     config['results'][algorithm.filelocation] = dict()
     # Accuracy
     config['results'][algorithm.filelocation]['accuracy'] = result[1] / result[0]
-    # False Positive Rate = extra / detected
+    # False Positive Rate = extra / detectedq
     config['results'][algorithm.filelocation]['false_positive'] = result[2] / result[1]
     # False Negative Rate = missed / num_steps
     config['results'][algorithm.filelocation]['false_negative'] = result[3] / result[0]
 
     # Calculate rating.
-    config['results'][algorithm.filelocation]['score'] = 2 - ((abs(result[1] - result[0])) / result[0]) - (config['results'][algorithm.filelocation]['false_positive'] + config['results'][algorithm.filelocation]['false_negative'])
+    config['results'][algorithm.filelocation]['score'] = 2 - ((abs(result[1] - result[0])) / result[0]) - config['results'][algorithm.filelocation]['false_positive']
 
 if __name__ == "__main__":
     main()
