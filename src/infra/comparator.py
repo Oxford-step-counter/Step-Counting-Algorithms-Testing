@@ -43,7 +43,7 @@ def compare(stepsMaster, confirmedPeaks, threshold):
     while peaks:
         time = peaks.pop(0).time
         for step in steps:
-            if abs(time - step) < threshold:
+            if step >= time and abs(time - step) < threshold:
                 confirmedSteps += 1
                 steps.remove(step)
                 break
@@ -61,6 +61,4 @@ def compare(stepsMaster, confirmedPeaks, threshold):
               + "\nFalse Negative Rate" \
               + str(falseNegativeRate)
 
-    return message
-
-
+    return [num_steps, num_peaks, falsePositives, num_steps - confirmedSteps]
