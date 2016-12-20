@@ -11,8 +11,8 @@ from src.algorithms.peakDetection.windowedPeakDetection import Wpd
 def main():
 
     # Set up stuff
-    get_url = 'http://127.0.0.1:7000/get_next'
-    return_url = 'http://127.0.0.1:7000/return'
+    get_url = 'http://api.jamiebrynes.com/get_next'
+    return_url = 'http://api.jamiebrynes.com/return'
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
     databank = getDataBank('./data/')
     # Check server for new value
