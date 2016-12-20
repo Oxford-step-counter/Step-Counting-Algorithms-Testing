@@ -35,7 +35,7 @@ def main():
         # Initialize stats dictionary
         stats = dict()
         stats['steps'] = 0
-        stats['detected'] = 0
+        stats['confirmed'] = 0
         stats['missed'] = 0
         stats['extra'] = 0
         config['stats'] = stats
