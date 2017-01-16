@@ -7,6 +7,22 @@ from src.infra.workerThread import WorkerThread
 
 class PeakScorer(WorkerThread):
 
+    def passThrough(self):
+        while self.active:
+            if not self.inputQueue.isEmpty():
+
+                # Get next data point
+                dp = self.inputQueue.dequeue()
+
+                if dp == 'end':
+                    self.completed = True
+                    self.active = False
+                    self.outputQueue.enqueue('end')
+                    return
+
+                self.data.append(dp)
+                self.outputQueue.enqueue(dp)
+
     def maxDiff(self):
         while self.active:
             if not self.inputQueue.isEmpty():
@@ -163,6 +179,8 @@ class PeakScorer(WorkerThread):
             self.target = self.meanDiff
         elif self.typ == 'pan_tompkins':
             self.target = self.panTompkins
+        elif self.typ == 'pass_through':
+            self.target = self.passThrough
         else:
             raise Exception('Unknown peak scorer type: ' + self.typ)
 
