@@ -7,22 +7,22 @@
         "ts_factor": 1000000
       },
       "filter": {
-        "window_size": 61,
+        "window_size": 43,
         "type": "kaiser_bessel",
         "cutoff_freq": 3,
         "sample_freq": 100
       },
       "scoring": {
-        "window_size": 3,
+        "window_size": 5,
         "type": "max_diff"
       },
       "detection": {
         "threshold": 1.2
       },
       "post": {
-        "time_threshold": 100
+        "time_threshold": 250
       }
     }
   },
-  "file_path": "../data/"
+  "file_path": "../data/Jamie_Hard_InHand_1/"
 }

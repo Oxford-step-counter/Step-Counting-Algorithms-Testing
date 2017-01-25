@@ -179,7 +179,7 @@ class PeakScorer(WorkerThread):
             self.target = self.meanDiff
         elif self.typ == 'pan_tompkins':
             self.target = self.panTompkins
-        elif self.typ == 'pass_through':
+        elif self.typ == 'pass':
             self.target = self.passThrough
         else:
             raise Exception('Unknown peak scorer type: ' + self.typ)

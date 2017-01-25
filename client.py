@@ -35,9 +35,7 @@ def main():
         # Initialize stats dictionary
         stats = dict()
         stats['steps'] = 0
-        stats['confirmed'] = 0
-        stats['missed'] = 0
-        stats['extra'] = 0
+        stats['ground_truth'] = 0
         config['stats'] = stats
 
         # Start new batch sim
@@ -48,11 +46,9 @@ def main():
 
         # Return data
         # Calculate final statistics
-        config['stats']['accuracy'] = config['stats']['confirmed'] / config['stats']['steps']
-        config['stats']['false_positive_rate'] = config['stats']['extra'] / config['stats']['confirmed']
-        config['stats']['false_negative_rate'] = config['stats']['missed'] / config['stats']['steps']
+        config['stats']['overall_error'] = 1 - abs(config['stats']['steps'] - config['stats']['ground_truth'] / config['stats']['ground_truth'])
 
-        #Calculate algorithm score
+        # Calculate algorithm score
         score = 0
         n = 0
         for key in list(config['results'].keys()):
@@ -84,21 +80,15 @@ def getAlgoResults(algorithm, config):
     result = algorithm.compare()
     # Update stats
     config['stats']['steps'] += result[0]
-    config['stats']['confirmed'] += result[1]
-    config['stats']['extra'] += result[2]
-    config['stats']['missed'] += result[3]
+    config['stats']['ground_truth'] += result[1]
 
     # Add entry to results.
     config['results'][algorithm.filelocation] = dict()
     # Accuracy
-    config['results'][algorithm.filelocation]['accuracy'] = result[1] / result[0]
-    # False Positive Rate = extra / detectedq
-    config['results'][algorithm.filelocation]['false_positive'] = result[2] / result[1]
-    # False Negative Rate = missed / num_steps
-    config['results'][algorithm.filelocation]['false_negative'] = result[3] / result[0]
+    config['results'][algorithm.filelocation]['error'] = 1 - abs(result[0] - result[1] / result[1])
 
     # Calculate rating.
-    config['results'][algorithm.filelocation]['score'] = 2 - ((abs(result[1] - result[0])) / result[0]) - config['results'][algorithm.filelocation]['false_positive']
+    config['results'][algorithm.filelocation]['score'] = 1 - config['results'][algorithm.filelocation]['error']
 
 if __name__ == "__main__":
     main()

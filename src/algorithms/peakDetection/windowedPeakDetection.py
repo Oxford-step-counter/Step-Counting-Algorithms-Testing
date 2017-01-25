@@ -13,7 +13,6 @@ from src import utils
 
 from src.infra.inputPipe import InputPipe
 from src.infra.queue import Queue
-from src.infra.comparator import compare
 
 from src.algorithms.peakDetection.preProcessing import WpdPreProcessor
 from src.algorithms.peakDetection.smoothingFilter import SmoothingFilter
@@ -106,7 +105,7 @@ class Wpd:
 
         timeData = {'scale': self.preProcessing.ts_factor, 'offset': self.preProcessing.startTime}
         self.steps = utils.loadStepCsv(self.filelocation + 'stepcounter.csv', timeData)
-        return compare(self.steps, self.confirmedPeaks, 200)
+        return [len(self.confirmedPeaks), len(self.steps)]
 
     # Check if the algorithm is done
     def isDone(self):
