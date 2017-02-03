@@ -49,8 +49,9 @@ class PeakDetector(WorkerThread):
                     self.std = math.sqrt((math.pow(dp.mag - self.mean, 2) + math.pow(o_mean - self.mean, 2)) / 2)
                 else:
                     # Iteratively update mean and standard deviation
-                    self.std = math.sqrt(((self.n - 2) * math.pow(self.std, 2) / (self.n - 1)) + math.pow(dp.mag - self.mean, 2) / self.n)
+                    o_mean = self.mean
                     self.mean = (dp.mag + (self.n - 1) * self.mean) / self.n
+                    self.std = math.sqrt(((self.n - 2) * math.pow(self.std, 2) / (self.n - 1)) + math.pow(o_mean - self.mean,2) +  math.pow(dp.mag - self.mean, 2) / self.n)
                 if self.n > 15:
                     # Check if we are above the threshold
                     if (dp.mag - self.mean) > self.std * self.threshold:
