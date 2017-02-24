@@ -44,17 +44,13 @@ def main():
             algo = Wpd(fp, pre, filter, scoring, detection, post)
             getAlgoResults(algo, config)
 
-        # Return data
-        # Calculate final statistics
-        config['stats']['overall_error'] = 1 - abs(config['stats']['steps'] - config['stats']['ground_truth'] / config['stats']['ground_truth'])
-
-        # Calculate algorithm score
+        # Calculate algorithm accuracy
         score = 0
         n = 0
         for key in list(config['results'].keys()):
-            score += config['results'][key]['score']
+            score += config['results'][key]['accuracy']
             n += 1
-        config['stats']['score'] = score / n
+        config['stats']['accuracy'] = score / n
 
         res = requests.post(return_url, headers=headers, data=json.dumps(config))
 
@@ -85,10 +81,7 @@ def getAlgoResults(algorithm, config):
     # Add entry to results.
     config['results'][algorithm.filelocation] = dict()
     # Accuracy
-    config['results'][algorithm.filelocation]['error'] = 1 - abs(result[0] - result[1] / result[1])
-
-    # Calculate rating.
-    config['results'][algorithm.filelocation]['score'] = 1 - config['results'][algorithm.filelocation]['error']
+    config['results'][algorithm.filelocation]['accuracy'] = 1 - abs(result[0] - result[1]) / result[1]
 
 if __name__ == "__main__":
     main()

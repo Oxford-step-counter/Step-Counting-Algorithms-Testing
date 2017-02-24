@@ -7,22 +7,23 @@
         "ts_factor": 1000000
       },
       "filter": {
-        "window_size": 43,
-        "type": "kaiser_bessel",
+        "window_size": 51,
+        "type": "gaussian",
+        "std": 0.3,
         "cutoff_freq": 3,
         "sample_freq": 100
       },
       "scoring": {
-        "window_size": 5,
-        "type": "max_diff"
+        "window_size": 11,
+        "type": "mean_diff"
       },
       "detection": {
         "threshold": 1.2
       },
       "post": {
-        "time_threshold": 250
+        "time_threshold": 200
       }
     }
   },
-  "file_path": "../data/Jamie_Hard_InHand_1/"
+  "file_path": "../data/Samsung_Carmelo_Hard_FrontPocket_1/"
 }

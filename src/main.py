@@ -38,7 +38,8 @@ def main():
     print("Algorithm complete. Running comparison.")
     result = algo.compare()
     print(result)
-    ui = UI(algo)
+    print(1 - abs((result[1] - result[0]) / result[1]))
+    #ui = UI(algo)
 
 
 # Entry point
