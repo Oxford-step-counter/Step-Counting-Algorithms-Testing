@@ -22,7 +22,7 @@ def loadAccelCsv(filepath):
     with open(filepath, 'r') as f:
         for line in f:
             s_line = line.split(',')
-            ds = DataStructure(int(s_line[0]), float(s_line[2]), float(s_line[3]), float(s_line[4]))
+            ds = DataStructure(int(s_line[0]), float(s_line[1]), float(s_line[2]), float(s_line[3]))
             data.append(ds)
 
     return data
@@ -39,23 +39,19 @@ def loadStepCsv(filepath, timeData):
     offset = timeData['offset']
     scale = timeData['scale']
 
-    left_previous = 1
-    right_previous = 1
+    left_previous = 0
 
     data = []
+
     with open(filepath, 'r') as f:
         for line in f:
             s_line = line.replace('\n','').split(',')
             # Check for feet transitioning from up to down.
-            if int(s_line[1]) == 1 and left_previous == 0:
-                time = (int(s_line[0]) - offset) / scale
-                data.append(time)
-            if int(s_line[2]) == 1 and right_previous == 0:
+            if int(s_line[4]) != left_previous:
                 time = (int(s_line[0]) - offset) / scale
                 data.append(time)
 
-            left_previous = int(s_line[1])
-            right_previous = int(s_line[2])
+            left_previous = int(s_line[4])
 
     return data
 
