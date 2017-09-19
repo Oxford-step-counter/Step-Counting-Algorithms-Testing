@@ -15,6 +15,7 @@ def main():
     usage = "usage: %prog [options] arg"
     parser = OptionParser(usage)
     parser.add_option("-i", "--input", dest="input", help="input CSV file")
+    parser.add_option("-o", "--output", dest="output", help="output CSV file prefix (just the name, with no extension)")
 
     (options, args) = parser.parse_args(sys.argv)
 
@@ -39,7 +40,8 @@ def main():
 
     if options.input:
         algo = Wpd(options.input, pre, filter, scoring, detection, post)
-        getAlgoResults(algo, config)
+
+        getAlgoResults(algo, config, options.output)
 
         print(config['stats']['steps'])
 
@@ -47,7 +49,7 @@ def main():
         print ("No input file provided")
 
 
-def getAlgoResults(algorithm, config):
+def getAlgoResults(algorithm, config, output):
 
     algorithm.start()
     while algorithm.isRunning():
@@ -55,6 +57,19 @@ def getAlgoResults(algorithm, config):
 
     # Algorithm is finished. Run comparison
     result = algorithm.compare()
+
+
+    if output :
+        filesOut = [open(output + '-1-Data.csv','w'), open(output + '-2-Pre.csv','w'), open(output + '-3-Smooth.csv','w'), open(output + '-4-PeakScore.csv','w'), open(output + '-5-Peak.csv','w'), open(output + '-6-ConfPeak.csv','w')]
+        totalData = algorithm.getData()
+
+        i=0
+        while i<= 5:
+            for sample in totalData[i]:
+                filesOut[i].write(sample.toCsv())
+            filesOut[i].close()
+            i += 1
+
     # Update stats
     config['stats']['steps'] += result[0]
     config['stats']['ground_truth'] += result[1]
