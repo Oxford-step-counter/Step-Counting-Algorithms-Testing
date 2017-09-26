@@ -1,7 +1,5 @@
-# Step Counter Algorithms
+# Step Counter Algorithm Python
 
-This repository contains the Python implementation of the algorithms to be tested for the step counter module.
+This repository contains the Python implementation of the Windowed Peak Detection step counter algorithm with all its variations.
 
-Planned to be implemented are: 
-- Windowed Peak Detection (with a variety of windows)
-- Continuous Wavelet Transform
+The algorithm is wrapped in a client/server architecture that allows running multiple instances of the algorithm with different sets of parameters.
