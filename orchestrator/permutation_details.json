@@ -1,0 +1,75 @@
+{
+  "filter": {
+    "kaiser_bessel": {
+      "cutoff_freq": 3,
+      "sample_freq": 100,
+      "window_size": {
+        "min": 13,
+        "max": 53,
+        "step": 8
+      }
+    },
+    "gaussian": {
+      "std": 0.35,
+      "window_size": {
+        "min": 13,
+        "max": 53,
+        "step": 8
+      }
+    },
+    "hann": {
+      "window_size":{
+        "min": 13,
+        "max": 53,
+        "step": 8
+      }
+    },
+    "center_moving_avg": {
+      "window_size": {
+        "min": 13,
+        "max": 53,
+        "step": 8
+      }
+    }
+  },
+  "scoring": {
+    "mean_diff": {
+      "window_size": {
+        "min": 3,
+        "max": 51,
+        "step": 8
+      }
+    },
+    "pan_tompkins": {
+      "window_size": {
+        "min": 11,
+        "max": 51,
+        "step": 8
+      }
+    },
+    "max_diff": {
+      "window_size": {
+        "min": 3,
+        "max": 51,
+        "step": 8
+      }
+    },
+    "pass_through": {
+      "window_size": 1
+    }
+  },
+  "detection": {
+    "solo": {
+      "threshold": {
+        "min": 1.2,
+        "max": 1.5,
+        "step": 0.2
+      }
+    }
+  },
+  "post": {
+    "solo": {
+      "time_threshold": 200
+    }
+  }
+}
