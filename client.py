@@ -23,7 +23,7 @@ def main():
     # Unpack params
     pre = {'inter_ts': 10, 'ts_factor': 1000000}
     filter = {'window_size':13, 'std':0.35, 'type':'gaussian'} #config['algorithm']['params']['filter']
-    scoring = 	{'window_size':27, 'type':'mean_diff'} #config['algorithm']['params']['scoring']
+    scoring = 	{'window_size':35, 'type':'mean_diff'} #config['algorithm']['params']['scoring']
     detection = {'threshold':1.2} #config['algorithm']['params']['detection']
     post = {'time_threshold':200} #config['algorithm']['params']['post']
 
